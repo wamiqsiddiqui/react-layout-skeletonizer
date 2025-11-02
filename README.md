@@ -64,6 +64,7 @@ While react-layout-skeletonizer is designed to be flexible, a few best practices
 
 Wrap containers, sections, and elements like div, h1, p, section, or article directly.
 
+```bash
  <Skeletonize isLoading>
       <div className="p-4 bg-white shadow-md flex flex-col gap-6">
         {/* Header */}
@@ -125,6 +126,7 @@ Wrap containers, sections, and elements like div, h1, p, section, or article dir
         </footer>
       </div>
     </Skeletonize>
+```
 
 This gives the cleanest skeleton layout because these elements have natural dimensions and structure.
 
@@ -137,17 +139,21 @@ Instead, place the skeleton inside those components and toggle it with their isL
 
 ✅ Recommended:
 
+```bash
 <Formik>
   <CustomInput isLoading={isLoading} />
 </Formik>
+```
 
 ❌ Avoid:
 
+```bash
 <Skeletonize isLoading={isLoading}>
   <Formik>
     <CustomInput />
   </Formik>
 </Skeletonize>
+```
 
 This ensures that your library logic (like Formik’s form context) continues to work properly even during loading states.
 
@@ -155,6 +161,7 @@ This ensures that your library logic (like Formik’s form context) continues to
 
 If your custom component has a complex layout, include the Skeletonize logic internally:
 
+```bash
 function CustomCard({ isLoading }: { isLoading: boolean }) {
 return (
 <Skeletonize isLoading={isLoading}>
@@ -166,10 +173,13 @@ return (
 </Skeletonize>
 )
 }
+```
 
 Then you can just use:
 
+```bash
 <CustomCard isLoading={isLoading} />
+```
 
 🎨 Styling
 
@@ -189,10 +199,13 @@ You can customize them via CSS variables (coming soon) or override with your own
 🔹 Plug-and-play with any React setup
 
 📁 Project Setup (for contributors)
+
+```bash
 git clone https://github.com/yourusername/react-layout-skeletonizer.git
 cd react-layout-skeletonizer
 npm install
 npm run build
+```
 
 📜 License
 
