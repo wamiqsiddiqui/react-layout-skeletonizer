@@ -5,6 +5,10 @@
   "main": "./dist/react-layout-skeletonizer.umd.js",
   "module": "./dist/react-layout-skeletonizer.es.js",
   "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wamiqsiddiqui/react-layout-skeletonizer.git"
+  },
   "exports": {
     ".": {
       "import": "./dist/react-layout-skeletonizer.es.js",
