@@ -1,8 +1,10 @@
-📦 react-layout-skeletonizer
+# 📦 react-layout-skeletonizer
 
 A lightweight React component for skeletonizing your layout and components while loading — built with TypeScript and Vite.
 
-🌟 Overview
+---
+
+## 🌟 Overview
 
 react-layout-skeletonizer allows you to easily display loading placeholders for entire layouts — headers, text, sections, and more — while preserving your original design structure.
 
