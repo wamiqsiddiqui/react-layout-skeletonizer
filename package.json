@@ -1,0 +1,43 @@
+{
+  "name": "react-layout-skeletonizer",
+  "version": "1.0.0",
+  "description": "A lightweight React utility for skeletonizing entire layouts while preserving structure.",
+  "main": "./dist/react-layout-skeletonizer.umd.js",
+  "module": "./dist/react-layout-skeletonizer.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/react-layout-skeletonizer.es.js",
+      "require": "./dist/react-layout-skeletonizer.umd.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@vitejs/plugin-react": "^5.0.4",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.7",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "author": "Muhammad Wamiq Siddiqui",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "skeleton",
+    "loading",
+    "layout",
+    "placeholder",
+    "skeleton-loader"
+  ]
+}
