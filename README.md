@@ -17,7 +17,7 @@ It works beautifully with static layouts (like HTML tags, div, section, h1, p, e
 
 This library focuses on keeping your existing layout intact, only applying lightweight visual skeleton effects until your data is ready — making it effortless to enhance user experience during loading states.
 
-🚀 Installation
+## 🚀 Installation
 
 ```bash
 npm install react-layout-skeletonizer
@@ -29,7 +29,7 @@ or
 yarn add react-layout-skeletonizer
 ```
 
-🪄 Usage Example
+## 🪄 Usage Example
 
 ```bash
 import { Skeletonize } from "react-layout-skeletonizer"
@@ -50,6 +50,8 @@ function ExamplePage({ isLoading }: { isLoading: boolean }) {
 
 When isLoading is true, your content automatically turns into skeleton placeholders while retaining spacing, structure, and layout.
 
+## ⚙️ Props
+
 | Prop               | Type              | Required | Description                                                                                                                                                                                                     |
 | ------------------ | ----------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **`children`**     | `React.ReactNode` | ✅ Yes   | The actual UI content that you want to skeletonize. When `isLoading` is `true`, the skeletons will automatically be generated based on this layout.                                                             |
@@ -58,11 +60,11 @@ When isLoading is true, your content automatically turns into skeleton placehold
 | **`fallback`**     | `React.ReactNode` | ❌ No    | A React element (or tree) that acts as a **fallback skeleton** when using `suspenseMode` or when you want to provide your own loading UI instead of the auto-generated skeletons.                               |
 | **`suspenseMode`** | `boolean`         | ❌ No    | Enables React’s native Suspense-based loading. <br>When set to `true`, you **must** pass either `fallback` or `customLayout` to show while data is loading.                                                     |
 
-💡 Recommended Practices
+## 💡 Recommended Practices
 
 While react-layout-skeletonizer is designed to be flexible, a few best practices help ensure smooth integration:
 
-✅ 1. Use it around static layouts (HTML tags)
+### ✅ 1. Use it around static layouts (HTML tags)
 
 Wrap containers, sections, and elements like div, h1, p, section, or article directly.
 
@@ -132,7 +134,7 @@ Wrap containers, sections, and elements like div, h1, p, section, or article dir
 
 This gives the cleanest skeleton layout because these elements have natural dimensions and structure.
 
-⚠️ 2. Avoid wrapping third-party or controlled components directly
+### ⚠️ 2. Avoid wrapping third-party or controlled components directly
 
 If you’re using libraries like Formik, React Hook Form, React Router, or custom components that control state or context —
 don’t wrap them directly in <Skeletonize>.
@@ -159,22 +161,23 @@ Instead, place the skeleton inside those components and toggle it with their isL
 
 This ensures that your library logic (like Formik’s form context) continues to work properly even during loading states.
 
-🧱 3. For custom components, apply Skeletonize inside them
+### 🧱 3. For custom components, apply Skeletonize inside them
 
 If your custom component has a complex layout, include the Skeletonize logic internally:
 
 ```bash
-function CustomCard({ isLoading }: { isLoading: boolean }) {
-return (
-<Skeletonize isLoading={isLoading}>
 
-<div className="card">
-<h3>User Info</h3>
-<p>Data goes here...</p>
-</div>
-</Skeletonize>
-)
+function CustomCard({ isLoading }: { isLoading: boolean }) {
+  return (
+    <Skeletonize isLoading={isLoading}>
+      <div className="card">
+        <h3>User Info</h3>
+        <p>Data goes here...</p>
+      </div>
+    </Skeletonize>
+  )
 }
+
 ```
 
 Then you can just use:
@@ -183,7 +186,7 @@ Then you can just use:
 <CustomCard isLoading={isLoading} />
 ```
 
-🎨 Styling
+## 🎨 Styling
 
 By default, the skeletons are neutral gray shades with a subtle shimmer animation.
 You can customize them via CSS variables (coming soon) or override with your own classes if desired.
@@ -200,15 +203,18 @@ You can customize them via CSS variables (coming soon) or override with your own
 
 🔹 Plug-and-play with any React setup
 
-📁 Project Setup (for contributors)
+## 📁 Project Setup (for contributors)
 
 ```bash
 git clone https://github.com/yourusername/react-layout-skeletonizer.git
+
 cd react-layout-skeletonizer
+
 npm install
+
 npm run build
 ```
 
-📜 License
+## 📜 License
 
 MIT © 2025 Muhammad Wamiq Siddiqui
