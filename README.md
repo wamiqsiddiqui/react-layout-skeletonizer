@@ -36,7 +36,7 @@ import { Skeletonize } from "react-layout-skeletonizer"
 
 function ExamplePage({ isLoading }: { isLoading: boolean }) {
   return (
-    <Skeletonize isNotLoading={!isLoading}>
+    <Skeletonize isLoading={isLoading}>
       <section className="hero">
         <h1 className="text-4xl font-bold">Welcome Back!</h1>
         <p className="text-lg text-gray-600">
