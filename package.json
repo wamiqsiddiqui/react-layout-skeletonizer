@@ -11,6 +11,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/react-layout-skeletonizer.es.js",
       "require": "./dist/react-layout-skeletonizer.umd.js"
     }
