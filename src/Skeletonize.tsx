@@ -1,11 +1,76 @@
-import React, { Suspense } from "react"
+import React, { Suspense, useEffect, useRef } from "react"
+
+// Pulse animation (same as Tailwind's animate-pulse)
+const pulseAnimation = {
+  animation: "pulse 2s ease-in-out infinite",
+}
+
+// Inject animation keyframes once globally
+if (
+  typeof document !== "undefined" &&
+  !document.getElementById("skeleton-pulse-style")
+) {
+  const style = document.createElement("style")
+  style.id = "skeleton-pulse-style"
+  style.innerHTML = `
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+  `
+  document.head.appendChild(style)
+}
+
+// 🧩 Utility to sanitize computed styles
+function getSanitizedComputedStyles(element: HTMLElement): React.CSSProperties {
+  const computed = window.getComputedStyle(element)
+  const allowedProps = [
+    "display",
+    "flexDirection",
+    "alignItems",
+    "justifyContent",
+    "gap",
+    "width",
+    "height",
+    "minWidth",
+    "minHeight",
+    "maxWidth",
+    "maxHeight",
+    "margin",
+    "marginTop",
+    "marginBottom",
+    "marginLeft",
+    "marginRight",
+    "padding",
+    "paddingTop",
+    "paddingBottom",
+    "paddingLeft",
+    "paddingRight",
+    "borderRadius",
+    "overflow",
+    "overflowX",
+    "overflowY",
+    "top",
+    "left",
+    "right",
+    "bottom",
+  ]
+
+  const sanitized: React.CSSProperties = {}
+  allowedProps.forEach((prop) => {
+    const val = computed.getPropertyValue(prop)
+    if (val && val !== "auto" && val !== "0px") {
+      sanitized[prop as keyof React.CSSProperties] = val as any
+    }
+  })
+  return sanitized
+}
 
 function transformToSkeleton(element: React.ReactNode): React.ReactNode {
   if (!React.isValidElement(element)) return element
 
-  const { children, className, style, ...rest } = element.props as {
+  const { children, style, ...rest } = element.props as {
     children?: React.ReactNode
-    className?: string
     style?: React.CSSProperties
     [key: string]: any
   }
@@ -14,90 +79,76 @@ function transformToSkeleton(element: React.ReactNode): React.ReactNode {
     React.isValidElement
   )
   const isContainer = validChildren.length > 1
-
   const interactiveTags = ["input", "button", "select", "textarea"]
   const tag = typeof element.type === "string" ? element.type.toLowerCase() : ""
 
+  const ref = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (ref.current) {
+      const sanitizedStyles = getSanitizedComputedStyles(ref.current)
+      Object.assign(ref.current.style, sanitizedStyles)
+    }
+  }, [])
+
+  // 🎯 Base skeleton look
+  const skeletonBase: React.CSSProperties = {
+    backgroundColor: "#d1d5dc",
+    borderRadius: "6px",
+    ...pulseAnimation,
+    color: "transparent",
+    borderColor: "transparent",
+    userSelect: "none",
+    cursor: "default",
+    pointerEvents: "none",
+  }
+
+  // 🧱 Interactive Elements
   if (interactiveTags.includes(tag)) {
-    const rectStyle = style || {}
     return (
       <div
-        className={`animate-pulse bg-gray-300 rounded ${className || ""}`}
+        ref={ref as any}
         style={{
-          width:
-            rectStyle.width || (className?.includes("w-") ? undefined : "100%"),
-          height:
-            rectStyle.height ||
-            (className?.includes("h-") ? undefined : "2.5rem"),
-          borderRadius: rectStyle.borderRadius || "0.5rem",
+          ...skeletonBase,
+          width: style?.width || "100%",
+          height: style?.height || "2.5rem",
           marginBottom: "0.25rem",
-          backgroundColor: "#d1d5dc",
-          color: "transparent",
-          borderColor: "transparent",
-          boxShadow: "none",
-          pointerEvents: "none",
         }}
       />
     )
   }
 
+  // 🖼️ Image Elements
   if (element.type === "img") {
-    const imgStyle = style || {}
     return (
       <div
-        className={`bg-gray-300 min-h-16 animate-pulse rounded ${
-          className || ""
-        }`}
+        ref={ref as any}
         style={{
-          width:
-            !className?.includes("w-") && imgStyle.width
-              ? imgStyle.width
-              : className?.includes("w-")
-              ? undefined
-              : "100%",
-          height:
-            !className?.includes("h-") && imgStyle.height
-              ? imgStyle.height
-              : className?.includes("h-")
-              ? undefined
-              : "100%",
-          borderRadius: imgStyle.borderRadius,
-          backgroundColor: "#d1d5dc",
-          pointerEvents: "none",
-          userSelect: "none",
-          cursor: "default",
+          ...skeletonBase,
+          width: style?.width || "100%",
+          height: style?.height || "100%",
         }}
       />
     )
   }
-
-  const baseBg = isContainer ? "bg-gray-50!" : "bg-gray-300!"
-
-  const newClassName = `
-    ${className || ""}
-    ${baseBg} animate-pulse
-  `.replace(/\btext-[^\s]+/g, "")
-
+  // 🧱 Other Elements
   const newProps = {
     ...rest,
-    className: newClassName,
     style: {
+      ...ref.current?.style,
+      ...skeletonBase,
       ...style,
-      color: "transparent",
-      borderColor: "transparent",
-      backgroundClip: "padding-box",
+      height: style?.height,
       borderRadius: !isContainer ? "5px" : style?.borderRadius,
       padding: isContainer ? "0.5rem" : style?.padding,
       marginBottom: isContainer ? "0.25rem" : style?.marginBottom ?? "0.25rem",
       marginLeft: isContainer ? style?.marginLeft : "0.2rem",
       marginRight: isContainer ? style?.marginRight : "1rem",
-      userSelect: "none",
-      cursor: "default",
+      backgroundColor: isContainer ? "#ffff" : "#d1d5dc",
     } as React.CSSProperties,
   }
 
   const newChildren = React.Children.map(children, transformToSkeleton)
-
   return React.cloneElement(element, newProps, newChildren)
 }
 
