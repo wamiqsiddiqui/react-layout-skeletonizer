@@ -193,8 +193,6 @@ You can customize them via CSS variables (coming soon) or override with your own
 
 🧩 Why use react-layout-skeletonizer?
 
-🔹 No Tailwind or CSS dependency — works in any React project
-
 🔹 TypeScript support
 
 🔹 Lightweight (≈3KB gzipped)
